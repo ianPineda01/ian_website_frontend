@@ -1,4 +1,5 @@
 <template>
+  <canvas id="snek"></canvas>
 </template>
 
 <script lang="ts">
@@ -57,10 +58,15 @@ const square = (arr:number[][]) => (context:CanvasRenderingContext2D) => (colour
     context.stroke()
 }
 
-const drawWholeSnek = (arr:number[][]) => (context:CanvasRenderingContext2D) => (input:snekNode):void =>{
+/**
+ * Void function that draws the whole snake recursively
+ * @param arr The array of values
+ * @param context The context that is being used to draw
+ */
+const drawSnek = (arr:number[][]) => (context:CanvasRenderingContext2D) => (input:snekNode):void =>{
     square(arr)(context)(1)(input.xPos)(input.yPos)
     if(input.next){
-        drawWholeSnek(arr)(context)(input.next)
+        drawSnek(arr)(context)(input.next)
     }
 }
 
@@ -72,8 +78,6 @@ const newApple = (arr:number[][]) => (context:CanvasRenderingContext2D):void => 
         y = Math.floor(Math.random() * 30)
     }while(arr[y][x] !== 0)
     square(arr)(context)(2)(x)(y)
-    console.log(x)
-    console.log(y)
 }
 
 const iterate = (arr:number[][]) => (context:CanvasRenderingContext2D) => (node:snekNode) => (x:number) => (y:number):void => {
@@ -89,84 +93,80 @@ const iterate = (arr:number[][]) => (context:CanvasRenderingContext2D) => (node:
         node.yPos = y
     }
 }
-const move = (arr:number[][]) => (context:CanvasRenderingContext2D) => (node:snekNode) => (x:number) => (y:number):void =>{
-    if(0 <= x && x < 30 && 0 <= y && y < 30){
-        if(!arr[y][x]){
-            square(arr)(context)(1)(x)(y)
-            iterate(arr)(context)(node)(x)(y)
-        }else if(arr[y][x] === 2){
-            square(arr)(context)(1)(x)(y)
-            const temp = snek.next
-            snek.next = new snekNode(snek.xPos, snek.yPos)
-            snek.next.next = temp
-            snek.xPos = x
-            snek.yPos = y
-            newApple(arr)(context)
-        }else if(arr[y][x] === 1){
-            clearInterval(intervalID)
-            alert("Ouchie, you bit yourself and lost ):")
-        }
-    }else{
-        clearInterval(intervalID)
-        alert("You lost :(")
-    }
-}
 
-//Canvas starting conditions
-const canvas = <HTMLCanvasElement> document.createElement("canvas")
-document.body.innerHTML = ""
-document.body.appendChild(canvas)
-const context = <CanvasRenderingContext2D> canvas.getContext("2d")
-canvas.width = 600
-canvas.height = 600
-context.fillRect(0,0,600,600)
-context.stroke()
-
-const up = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos)(node.yPos - 1)
-const down = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos)(node.yPos + 1)
-const left = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos - 1)(node.yPos)
-const right = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos + 1)(node.yPos)
-
-//draw starnting snake and apple
-const arr = createArr()
-const snek = new snekNode(7, 15)
-snek.next = new snekNode(6, 15)
-snek.next.next = new snekNode(5, 15)
-snek.next.next.next = new snekNode(4, 15)
-const tail = snek.next.next.next
-drawWholeSnek(arr)(context)(snek)
-newApple(arr)(context)
-
-const dir = [right]
-
-const intervalID = setInterval(() => {
-    dir[0](arr)(snek)
-    if(dir.length > 1){
-        dir.shift()
-    }
-}, 100)
-
-document.addEventListener("keypress", (e) => {
-    if(e.code === "KeyW"){
-        if(dir[0] !== down){
-            dir.push(up)
-        }
-    }else if(e.code === "KeyS"){
-        if(dir[0] !== up){
-            dir.push(down)
-        }
-    }else if(e.code === "KeyA"){
-        if(dir[0] !== right){
-            dir.push(left)
-        }
-    }else if(e.code === "KeyD"){
-        if(dir[0] !== left){
-            dir.push(right)
-        }
-    }e
-})
 
 @Options({
+    mounted(){
+        const canvas = <HTMLCanvasElement>document.querySelector('#snek')
+        const context = <CanvasRenderingContext2D>canvas.getContext('2d')
+        canvas.width = 600
+        canvas.height = 600
+        context.fillRect(0, 0, 600, 600)
+        context.stroke()
+        
+        const up = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos)(node.yPos - 1)
+        const down = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos)(node.yPos + 1)
+        const left = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos - 1)(node.yPos)
+        const right = (arr:number[][]) => (node:snekNode):void => move(arr)(context)(node)(node.xPos + 1)(node.yPos)
+
+        const arr = createArr()
+        const snek = new snekNode(7, 15)
+        snek.next = new snekNode(6, 15)
+        snek.next.next = new snekNode(5, 15)
+        snek.next.next.next = new snekNode(4, 15)
+        drawSnek(arr)(context)(snek)
+        newApple(arr)(context)
+        
+        const dir = [right]
+        const intervalID = setInterval(() => {
+            dir[0](arr)(snek)
+            if(dir.length > 1){
+                dir.shift()
+            }
+        }, 100)
+    
+        document.addEventListener("keypress", (e) => {
+            if(e.code === "KeyW"){
+                if(dir[0] !== down){
+                    dir.push(up)
+                }
+            }else if(e.code === "KeyS"){
+                if(dir[0] !== up){
+                    dir.push(down)
+                }
+            }else if(e.code === "KeyA"){
+                if(dir[0] !== right){
+                    dir.push(left)
+                }
+            }else if(e.code === "KeyD"){
+                if(dir[0] !== left){
+                    dir.push(right)
+                }
+            }e
+        })
+        const move = (arr:number[][]) => (context:CanvasRenderingContext2D) => (node:snekNode) => (x:number) => (y:number):void =>{
+            if(0 <= x && x < 30 && 0 <= y && y < 30){
+                if(!arr[y][x]){
+                    square(arr)(context)(1)(x)(y)
+                    iterate(arr)(context)(node)(x)(y)
+                }else if(arr[y][x] === 2){
+                    square(arr)(context)(1)(x)(y)
+                    const temp = snek.next
+                    snek.next = new snekNode(snek.xPos, snek.yPos)
+                    snek.next.next = temp
+                    snek.xPos = x
+                    snek.yPos = y
+                    newApple(arr)(context)
+                }else if(arr[y][x] === 1){
+                    clearInterval(intervalID)
+                    alert("Ouchie, you bit yourself and lost ):")
+                }
+            }else{
+                clearInterval(intervalID)
+                alert("You lost :(")
+            }
+        }
+    }
 })
 
 export default class Home extends Vue {}
