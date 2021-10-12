@@ -62,6 +62,7 @@ const square = (arr:number[][]) => (context:CanvasRenderingContext2D) => (colour
  * Void function that draws the whole snake recursively
  * @param arr The array of values
  * @param context The context that is being used to draw
+ * @param input The current node of the snake list
  */
 const drawSnek = (arr:number[][]) => (context:CanvasRenderingContext2D) => (input:snekNode):void =>{
     square(arr)(context)(1)(input.xPos)(input.yPos)
@@ -70,6 +71,11 @@ const drawSnek = (arr:number[][]) => (context:CanvasRenderingContext2D) => (inpu
     }
 }
 
+/**
+ * Void function that generates a new newApple
+ * @param arr state array of the game
+ * @param context Context which will be used to draw the new apple
+ */
 const newApple = (arr:number[][]) => (context:CanvasRenderingContext2D):void => {
     let x
     let y
@@ -80,6 +86,14 @@ const newApple = (arr:number[][]) => (context:CanvasRenderingContext2D):void => 
     square(arr)(context)(2)(x)(y)
 }
 
+/**
+ * Void function that refreshes the state of the game recursively
+ * @param arr State array of the game
+ * @param context Context that will be used to draw 
+ * @param node current node of the snake list
+ * @param x xPosition
+ * @param y yPosition
+ */
 const iterate = (arr:number[][]) => (context:CanvasRenderingContext2D) => (node:snekNode) => (x:number) => (y:number):void => {
     if(node.next){
         const tempX = node.xPos
