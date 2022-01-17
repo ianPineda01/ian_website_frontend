@@ -1,4 +1,4 @@
-# ianpineda01.github.io
+# vuejs frontend for my personal website
 
 ## Project setup
 ```
