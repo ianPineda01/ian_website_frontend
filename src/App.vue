@@ -7,3 +7,14 @@
   </div>
   <router-view class="font-sans antialiased text-gray-600"/>
 </template>
+<script>
+import { onMounted } from '@vue/runtime-core'
+
+export default {
+  setup(){
+    onMounted(() => {
+      fetch('http://localhost:3000/log_visit', {method: 'POST',})
+    })
+  }
+}
+</script>
