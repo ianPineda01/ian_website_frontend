@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <h1>Ian Pineda</h1>
+  <div class="w-max mx-auto text-center">
+    <h1 >Ian Pineda</h1>
     <h3>(Under construction)</h3>
     <img alt="Vue logo" src="../assets/logo.png">
   </div>

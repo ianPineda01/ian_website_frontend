@@ -1,5 +1,7 @@
 <template>
-  <canvas id="snek"></canvas>
+  <div class="w-max mx-auto">
+    <canvas id="snek"></canvas>
+  </div>
 </template>
 
 <script lang="ts">

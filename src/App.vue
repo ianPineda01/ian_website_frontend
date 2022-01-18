@@ -1,32 +1,9 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About me</router-link> |
-    <router-link to="/snake">Snake</router-link> |
-    <router-link to="/contact">Contact</router-link>
+  <div class="p-5 w-max mx-auto">
+    <router-link to="/" class="font-bold">Home</router-link> |
+    <router-link to="/about" class="font-bold">About me</router-link> |
+    <span class="hidden md:inline"><router-link to="/snake" class="font-bold">Snake</router-link> | </span>
+    <router-link to="/contact" class="font-bold">Contact</router-link>
   </div>
-  <router-view/>
+  <router-view class="font-sans antialiased text-gray-600"/>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
