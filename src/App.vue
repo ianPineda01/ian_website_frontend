@@ -13,7 +13,7 @@ import { onMounted } from '@vue/runtime-core'
 export default {
   setup(){
     onMounted(() => {
-      fetch('http://localhost:3000/log_visit', {method: 'POST',})
+      fetch('log_visit', {method: 'POST',})
     })
   }
 }
