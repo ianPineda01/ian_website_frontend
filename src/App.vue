@@ -1,20 +1,25 @@
 <template>
   <div class="p-5 w-max mx-auto">
-    <router-link to="/" class="font-bold">Home</router-link> |
-    <router-link to="/about" class="font-bold">About me</router-link> |
-    <span class="hidden md:inline"><router-link to="/snake" class="font-bold">Snake</router-link> | </span>
-    <router-link to="/links" class="font-bold">Links</router-link>
+    <Link link="/" name="Home"/> |
+    <Link link="/about" name="About me"/> |
+    <span class="hidden md:inline"><Link link="/snake" name="Snake"/> | </span>
+    <Link link="links" name="Links"/>
   </div>
   <router-view class="font-sans antialiased text-gray-600"/>
 </template>
 <script>
-import { onMounted } from '@vue/runtime-core'
+import { defineComponent, onMounted } from 'vue'
+import Link from './components/Link.vue'
 
-export default {
+export default defineComponent({
+  name: 'App',
+  components:{
+    Link
+  },
   setup(){
     onMounted(() => {
-      fetch('log_visit', {method: 'POST',})
+      fetch('log_visit', {method: 'POST'}).catch(err => console.log(err))
     })
   }
-}
+})
 </script>

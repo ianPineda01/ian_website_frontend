@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col md:flex-row">
+  <div class="flex flex-col md:flex-row max-w-screen-md mx-auto">
     <h2>
       Ian Pineda is an avid learner currently majoring in CS (UNAM, 2024) whose
       first contact with programming came in the form of a high school C class, 
