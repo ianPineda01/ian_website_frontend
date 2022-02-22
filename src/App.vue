@@ -2,6 +2,7 @@
   <div class="p-5 w-max mx-auto dark:text-gray-50">
     <Link link="/" name="Home"/> |
     <Link link="/about" name="About me"/> |
+    <Link link="/videos" name="Videos"></Link> |
     <span class="hidden md:inline">
       <Link link="/snake" name="Snake"/> | 
       <Link link="/minesweeper" name="Minesweeper"/> |
